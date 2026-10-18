@@ -1,0 +1,11 @@
+{
+  "name": "earthcation-play",
+  "private": true,
+  "type": "module",
+  "description": "Cloudflare Worker que sirve el juego WebGL de Earthcation desde R2 (play.earthcation.saimers.dev)",
+  "scripts": {
+    "test": "node --test",
+    "dev": "npx wrangler dev",
+    "deploy": "npx wrangler deploy"
+  }
+}

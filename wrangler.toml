@@ -1,0 +1,18 @@
+# Worker que sirve el juego WebGL de Earthcation desde R2 (ver README.md).
+# Secretos (wrangler secret put, nunca aquí): PLAY_SIGNING_SECRET, VISITS_INGEST_SECRET, VISIT_SALT
+name = "earthcation-play"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+
+# Dominio propio: Cloudflare crea el registro DNS al desplegar (saimers.dev está en la cuenta).
+routes = [
+  { pattern = "play.earthcation.saimers.dev", custom_domain = true }
+]
+
+# Bucket privado donde la API publica las versiones (builds/<id>/) y el puntero current.json
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "earthcation-play"
+
+[vars]
+API_URL = "https://api-earthcation.saimers.dev"
