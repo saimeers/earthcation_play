@@ -40,6 +40,9 @@ async function recordVisit(request, env, url, current) {
     colo: cf.colo ?? null,
     latitude: cf.latitude ? Number(cf.latitude) : null,
     longitude: cf.longitude ? Number(cf.longitude) : null,
+    // Red de origen: la API descarta como escáner lo que viene de un centro de datos
+    asn: cf.asn ?? null,
+    as_organization: cf.asOrganization ?? null,
     user_agent: request.headers.get('user-agent')?.slice(0, 400) ?? null,
     session_code: /^\d{3}$/.test(sala ?? '') ? sala : null,
   }
