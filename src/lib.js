@@ -102,10 +102,13 @@ export function readCookie(header, name) {
   return null
 }
 
-/** Identificador anónimo del visitante: HMAC(VISIT_SALT, ip). La IP nunca sale del Worker. */
-export async function visitorId(salt, ip) {
+/**
+ * Identificador anónimo del visitante: HMAC(VISIT_SALT, ip + user-agent). Solo la IP no sirve: en un
+ * salón todos los celulares salen por el mismo wifi. La IP nunca sale del Worker.
+ */
+export async function visitorId(salt, ip, userAgent = '') {
   if (!salt || !ip) return null
   const key = await crypto.subtle.importKey('raw', encoder.encode(salt), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign'])
-  const sig = new Uint8Array(await crypto.subtle.sign('HMAC', key, encoder.encode(ip)))
+  const sig = new Uint8Array(await crypto.subtle.sign('HMAC', key, encoder.encode(`${ip}|${userAgent}`)))
   return [...sig.slice(0, 16)].map(b => b.toString(16).padStart(2, '0')).join('')
 }

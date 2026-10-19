@@ -32,7 +32,7 @@ async function recordVisit(request, env, url, current) {
   const cf = request.cf ?? {}
   const sala = url.searchParams.get('sala')
   const body = {
-    visitor: await visitorId(env.VISIT_SALT, request.headers.get('cf-connecting-ip')),
+    visitor: await visitorId(env.VISIT_SALT, request.headers.get('cf-connecting-ip'), request.headers.get('user-agent') ?? ''),
     version_id: current.version_id,
     country: cf.country ?? null,
     region: cf.region ?? null,

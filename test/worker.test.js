@@ -41,4 +41,6 @@ test('readCookie y visitorId', async () => {
   assert.equal(a.length, 32)
   assert.equal(a, await visitorId('salt', '1.2.3.4'))
   assert.notEqual(a, await visitorId('salt', '1.2.3.5'))
+  // Misma red (wifi del salón), otro celular: otro visitante
+  assert.notEqual(await visitorId('salt', '1.2.3.4', 'Android'), await visitorId('salt', '1.2.3.4', 'iPhone'))
 })
