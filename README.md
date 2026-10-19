@@ -16,7 +16,7 @@ bucket privado de R2. La API (`../earthcation_be`, `deploy.service.js`) publica 
   es barato. (Guardar en la caché respuestas con `encodeBody: 'manual'` no es fiable.)
 - **Visitas**: al servir el `index.html` de la versión en línea, `ctx.waitUntil` manda a
   `API_URL/api/visits/ingest` (header `x-ingest-secret`) país/región/ciudad/colo/coordenadas de
-  `request.cf`, user-agent, versión y el código `?sala=`. El visitante va como `HMAC(VISIT_SALT, ip)`;
+  `request.cf`, user-agent, versión y el código `?sala=`. También manda ASN y organización de red (la API descarta centros de datos como robots). El visitante va como `HMAC(VISIT_SALT, ip + user-agent)` (un salón comparte la IP del wifi);
   la IP no sale del Worker.
 
 ## Desplegar
