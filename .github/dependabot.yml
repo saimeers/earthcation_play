@@ -5,8 +5,20 @@ updates:
     schedule:
       interval: monthly
     target-branch: develop
+    # Política del proyecto: versiones exactas y publicadas hace al menos 14 días
+    cooldown:
+      default-days: 14
   - package-ecosystem: npm
     directory: /
     schedule:
       interval: monthly
     target-branch: develop
+    cooldown:
+      default-days: 14
+    versioning-strategy: increase
+    ignore:
+      # ESLint y @eslint/js suben juntos: no se actualiza uno sin el otro
+      - dependency-name: "@eslint/js"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
