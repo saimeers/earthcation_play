@@ -1,5 +1,5 @@
-# CI del Worker: pruebas en cada PR y push. Al llegar a main (solo por merge con CI en verde) se
-# despliega a play.earthcation.saimers.dev con un token de Cloudflare acotado a Workers.
+# CI del Worker: lint, tipos y pruebas en cada PR y push. Al llegar a main (solo por merge con CI en verde)
+# se despliega a play.earthcation.saimers.dev con un token de Cloudflare acotado a Workers.
 name: ci
 
 on:
@@ -24,8 +24,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Tipos
+        run: npm run typecheck
       - name: Pruebas
-        run: node --test
+        run: npm test
 
   secretos:
     runs-on: ubuntu-latest
@@ -44,6 +50,12 @@ jobs:
     environment: production
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      # wrangler fijado en package.json (wrangler-action usa el instalado en el proyecto)
+      - run: npm ci
       - uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
