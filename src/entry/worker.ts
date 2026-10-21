@@ -4,6 +4,7 @@ import type { ServedFile } from '../domain/ServedFile'
 import { buildContainer, type Container } from './container'
 import type { Env } from './env'
 import { errorPage } from './pages'
+import { securityHeaders } from './securityHeaders'
 
 type IncomingRequest = Request<unknown, IncomingRequestCfProperties>
 
@@ -66,7 +67,7 @@ function headersOf({ headers: file, etag, preview, setCookie }: ServedFile): Hea
     'content-type': file.contentType,
     'cache-control': file.cacheControl,
     etag,
-    'x-content-type-options': 'nosniff',
+    ...securityHeaders(file.contentType),
   })
   if (preview) headers.set('x-robots-tag', 'noindex')
   if (setCookie) headers.append('set-cookie', setCookie)

@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import worker from '../../src/entry/worker'
 import type { Env } from '../../src/entry/env'
+import { securityHeaders } from '../../src/entry/securityHeaders'
 import { FakeR2Bucket, ID, sign } from '../support/fakes'
 
 // De punta a punta con R2 y la API falsos. La caché de current.json es del módulo (isolate): cada prueba
@@ -62,7 +63,7 @@ describe('versión en línea', () => {
       'content-type': 'text/html; charset=utf-8',
       'cache-control': 'no-cache',
       etag: '"idx"',
-      'x-content-type-options': 'nosniff',
+      ...securityHeaders('text/html'),
     })
     expect(pending).toHaveLength(1)
     expect(api).toHaveBeenCalledTimes(1)
