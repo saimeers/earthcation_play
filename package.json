@@ -1,5 +1,6 @@
 {
   "name": "earthcation-play",
+  "version": "1.2.0",
   "private": true,
   "type": "module",
   "description": "Cloudflare Worker que sirve el juego WebGL de Earthcation desde R2 (play.earthcation.saimers.dev)",
